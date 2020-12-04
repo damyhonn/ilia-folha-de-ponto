@@ -1,0 +1,10 @@
+server:
+  port: 9000
+  servlet:
+     contextPath: /folhadeponto
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    platform: h2
