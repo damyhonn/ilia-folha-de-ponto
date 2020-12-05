@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.com.ilia.digital.folhadeponto.persistence.model.Momento;
 import br.com.ilia.digital.folhadeponto.persistence.model.Registro;
 import br.com.ilia.digital.folhadeponto.service.FolhaDePontoService;
+import br.com.ilia.digital.folhadeponto.service.exception.FolhaDePontoException;
 
 @RestController
 @RequestMapping("/v1")
@@ -24,9 +25,7 @@ public class FolhaDePontoResource {
 	private FolhaDePontoService folhaDePontoService;
 	
 	@RequestMapping(value="/batidas", method=RequestMethod.POST)
-	private ResponseEntity<Registro> registrarBatida(@RequestBody Momento momento) {
-		
-		System.out.println("Entrou!");
+	private ResponseEntity<Registro> registrarBatida(@RequestBody Momento momento) throws FolhaDePontoException {
 		
 		return ResponseEntity.status(HttpStatus.CREATED).location(getLocation(momento.getId())).body(folhaDePontoService.registraBatida(momento));
 	}
@@ -35,6 +34,12 @@ public class FolhaDePontoResource {
 	private ResponseEntity<List<Registro>> registros() {
 		
 		return ResponseEntity.status(HttpStatus.OK).location(getLocation("1")).body(folhaDePontoService.getRegistros());
+	}
+	
+	@RequestMapping(value="/momentos", method=RequestMethod.GET)
+	private ResponseEntity<List<Momento>> getMomentos() {
+		
+		return ResponseEntity.status(HttpStatus.OK).location(getLocation("1")).body(folhaDePontoService.getMomentos());
 	}
 	
 	/*

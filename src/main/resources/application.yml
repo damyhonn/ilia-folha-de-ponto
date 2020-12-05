@@ -4,7 +4,15 @@ server:
      contextPath: /folhadeponto
 spring:
   jpa:
+    show-sql: true
     hibernate:
+      format_sql: true
       ddl-auto: none
   datasource:
     platform: h2
+  jackson:
+    time-zone: America/Sao_Paulo
+  h2:
+    console:
+      enable: true
+      path: /console

@@ -11,12 +11,12 @@ create table mensagem (
 );
 
 create table momento (
-    id integer primary key,
+    id IDENTITY primary key,
     data_hora varchar(50)
 );
 
 create table registro (
-    id integer primary key,
+    id IDENTITY primary key,
     dia varchar(50)
 );
 
@@ -31,8 +31,10 @@ create table relatorio (
 );
 
 create table registro_horarios (
-    registro_id integer primary key,
-    horario varchar(50)
+	id IDENTITY primary key,
+    registro_id integer not null,
+    horario timestamp,
+    foreign key (registro_id) references registro(id)
 );
 
 create table relatorio_registro (

@@ -6,4 +6,5 @@ import br.com.ilia.digital.folhadeponto.persistence.model.Registro;
 
 public interface RegistroRepository extends JpaRepository<Registro, Long> {
 
+	public Registro findByDia(String dia);
 }
