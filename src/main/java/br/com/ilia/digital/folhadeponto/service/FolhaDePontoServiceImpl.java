@@ -224,7 +224,7 @@ public class FolhaDePontoServiceImpl implements FolhaDePontoService {
 		//Valida se houve mais de 1 hora de almoço
 		if (registro.getHorarios().size() == this.SEGUNDA_BATIDA) {
 			Calendar saidaAlmoco = Calendar.getInstance();
-			saidaAlmoco.setTime(registro.getHorarios().stream().findFirst().orElse(null)); //Retorna o segundo horário batido (ultimo elemento inserido no conjunto)
+			saidaAlmoco.setTime(registro.getHorarios().stream().skip(1).findFirst().orElse(null)); //Retorna o segundo horário batido (ultimo elemento inserido no conjunto)
 			Date saidaAlmocoDate = saidaAlmoco.getTime();
 			Duration duracao = Duration.between(saidaAlmocoDate.toInstant(), horarioBatida.toInstant());
 			

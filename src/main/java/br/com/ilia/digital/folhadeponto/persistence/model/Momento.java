@@ -16,6 +16,14 @@ public class Momento implements Serializable {
 	 */
 	private static final long serialVersionUID = 1034466536707530072L;
 
+	public Momento() {
+	}
+	
+	public Momento(String dataHora) {
+		super();
+		this.dataHora = dataHora;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
