@@ -1,8 +1,10 @@
 package br.com.ilia.digital.folhadeponto.persistence.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.persistence.CollectionTable;
@@ -14,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -21,7 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import br.com.ilia.digital.folhadeponto.service.util.formatter.JsonDateSerializer;
 
 @Entity(name="registro")
-public class Registro implements Serializable {
+public class Registro implements Serializable, Comparable<Registro> {
 
 	/**
 	 * 
@@ -39,11 +42,13 @@ public class Registro implements Serializable {
 	@CollectionTable(name = "registro_horarios", joinColumns = @JoinColumn(name = "registro_id"))
 	@Column(name = "horario")
 	@JsonSerialize(contentUsing = JsonDateSerializer.class)
-	private Set<Date> horarios = new TreeSet<>();
+	@OrderBy("id")
+	private SortedSet<Date> horarios = new TreeSet<>();
 	
 	@ManyToMany(mappedBy = "registros")
 	@JsonIgnore
-	private Set<Relatorio> relatorios;
+	@OrderBy("id")
+	private SortedSet<Relatorio> relatorios;
 
 	public Long getId() {
 		return id;
@@ -61,20 +66,33 @@ public class Registro implements Serializable {
 		this.dia = dia;
 	}
 
-	public Set<Date> getHorarios() {
+	public SortedSet<Date> getHorarios() {
 		return horarios;
 	}
 
-	public void setHorarios(Set<Date> horarios) {
+	public void setHorarios(SortedSet<Date> horarios) {
 		this.horarios = horarios;
 	}
 
-	public Set<Relatorio> getRelatorios() {
+	public SortedSet<Relatorio> getRelatorios() {
 		return relatorios;
 	}
 
-	public void setRelatorios(Set<Relatorio> relatorios) {
+	public void setRelatorios(SortedSet<Relatorio> relatorios) {
 		this.relatorios = relatorios;
+	}
+
+	@Override
+	public int compareTo(Registro o) {
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date data1 = formato.parse(this.dia);
+			Date data2 = formato.parse(o.getDia());
+			return data1.compareTo(data2);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 	
 }

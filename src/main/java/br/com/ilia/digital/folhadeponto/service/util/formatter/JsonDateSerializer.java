@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 @Component
 public class JsonDateSerializer extends JsonSerializer<Date>{
-    // ISO 8601
     private static final DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     @Override

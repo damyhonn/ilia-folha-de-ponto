@@ -3,14 +3,20 @@ package br.com.ilia.digital.folhadeponto.persistence.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
-@Entity(name="relatorio")
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
 public class Relatorio implements Serializable {
 
 	/**
@@ -19,6 +25,8 @@ public class Relatorio implements Serializable {
 	private static final long serialVersionUID = -4582907938862697086L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
 	
 	private String mes;
@@ -38,11 +46,8 @@ public class Relatorio implements Serializable {
 	inverseJoinColumns = {@JoinColumn(name = "registro_id")})
 	private Set<Registro> registros;
 	
-	@ManyToMany
-	@JoinTable(name="relatorio_alocacao",
-	joinColumns = {@JoinColumn(name = "relatorio_id")},
-	inverseJoinColumns = {@JoinColumn(name = "alocacao_id")})
-	private Set<Alocacao> alocacoes;
+	@OneToMany(targetEntity = AlocacaoRelatorio.class, cascade = CascadeType.ALL)
+	private Set<AlocacaoRelatorio> alocacoes;
 
 	public Long getId() {
 		return id;
@@ -92,11 +97,11 @@ public class Relatorio implements Serializable {
 		this.registros = registros;
 	}
 
-	public Set<Alocacao> getAlocacoes() {
+	public Set<AlocacaoRelatorio> getAlocacoes() {
 		return alocacoes;
 	}
 
-	public void setAlocacoes(Set<Alocacao> alocacoes) {
+	public void setAlocacoes(Set<AlocacaoRelatorio> alocacoes) {
 		this.alocacoes = alocacoes;
 	}
 }

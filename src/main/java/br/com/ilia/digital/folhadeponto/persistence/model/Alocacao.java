@@ -5,8 +5,12 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name="alocacao")
 public class Alocacao implements Serializable {
@@ -17,6 +21,8 @@ public class Alocacao implements Serializable {
 	private static final long serialVersionUID = 5334395868574242925L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
 	
 	private String dia;
@@ -27,6 +33,7 @@ public class Alocacao implements Serializable {
 	private String nomeProjeto;
 	
 	@ManyToMany(mappedBy = "alocacoes")
+	@JsonIgnore
 	private Set<Relatorio> relatorios;
 
 	public Long getId() {
@@ -59,6 +66,14 @@ public class Alocacao implements Serializable {
 
 	public void setNomeProjeto(String nomeProjeto) {
 		this.nomeProjeto = nomeProjeto;
+	}
+
+	public Set<Relatorio> getRelatorios() {
+		return relatorios;
+	}
+
+	public void setRelatorios(Set<Relatorio> relatorios) {
+		this.relatorios = relatorios;
 	}
 	
 }

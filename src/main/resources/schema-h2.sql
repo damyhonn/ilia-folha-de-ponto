@@ -1,5 +1,5 @@
 create table alocacao (
-    id integer primary key,
+    id IDENTITY primary key,
     dia varchar(50),
     tempo varchar(50),
     nome_projeto varchar(256)
@@ -21,7 +21,7 @@ create table registro (
 );
 
 create table relatorio (
-    id integer primary key,
+    id IDENTITY primary key,
     mes varchar(7),
     horas_trabalhadas varchar(50),
     horas_excedentes varchar(50),
@@ -42,7 +42,15 @@ create table relatorio_registro (
     registro_id integer
 );
 
-create table relatorio_alocacao (
-    relatorio_id integer,
-    alocacao_id integer
+create table alocacao_relatorio (
+	id IDENTITY primary key,
+	relatorio_id integer,
+	nome_projeto varchar(256),
+    tempo varchar(50),
+    foreign key (relatorio_id) references relatorio(id)
+);
+
+create table relatorio_alocacoes (
+	alocacoes_id integer,
+	relatorios_id integer
 );
