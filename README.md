@@ -18,10 +18,20 @@ Para iniciar o projeto basta executar o seguinte comando em sua pasta raiz:
 ## Windows:
 
 ```bash
+    $ mvnw.cmd clean install
+```
+Depois executar o comando:
+
+```bash
     $ mvnw.cmd spring-boot:run
 ```
 
 ## Linux:
+
+```bash
+    $ ./mvnw clean install
+```
+Depois executar o comando:
 
 ```bash
     $ ./mvnw spring-boot:run
