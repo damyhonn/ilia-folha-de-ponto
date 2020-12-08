@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>br.com.ilia.digital</groupId>
 	<artifactId>folha-de-ponto</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>folha-de-ponto</name>
 	<description>Web API REST para controle de ponto</description>
 
