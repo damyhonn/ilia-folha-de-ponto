@@ -13,7 +13,7 @@ Para baixar o projeto é necessário realizar o clone deste repositório:
 
 ## Execução do projeto
 
-Para iniciar o projeto basta executar o seguinte comando na pasta raiz do projeto:
+Para iniciar o projeto basta executar o seguinte comando em sua pasta raiz:
 
 ## Windows:
 
