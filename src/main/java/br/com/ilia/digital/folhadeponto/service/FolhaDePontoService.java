@@ -6,7 +6,7 @@ import br.com.ilia.digital.folhadeponto.persistence.model.Registro;
 import br.com.ilia.digital.folhadeponto.persistence.model.Relatorio;
 
 public interface FolhaDePontoService {
-	Registro registraBatida(Momento momento);
-	Alocacao registraAlocacao(Alocacao alocacao);
-	Relatorio getRelatorio(String mes);
+	Registro insereBatida(Momento momento);
+	Alocacao insereAlocacao(Alocacao alocacao);
+	Relatorio geraRelatorioMensal(String mes);
 }

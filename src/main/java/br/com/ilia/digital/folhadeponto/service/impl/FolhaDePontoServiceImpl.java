@@ -62,8 +62,12 @@ public class FolhaDePontoServiceImpl implements FolhaDePontoService {
 	@Autowired
 	private TimeUtil timeUtil;
 
+	/*
+	 * Bater ponto
+	 * Registrar um horário da jornada diária de trabalho
+	 */
 	@Override
-	public Registro registraBatida(Momento momento) throws FolhaDePontoException, DateTimeException {
+	public Registro insereBatida(Momento momento) throws FolhaDePontoException, DateTimeException {
 		
 		validaMomento(momento);
 		
@@ -96,15 +100,23 @@ public class FolhaDePontoServiceImpl implements FolhaDePontoService {
 		return registro;
 	}
 	
+	/*
+	 * Alocar horas trabalhadas
+	 * Alocar horas trabalhadas, de um dia de trabalho, em um projeto
+	 */
 	@Override
-	public Alocacao registraAlocacao(Alocacao alocacao) {
+	public Alocacao insereAlocacao(Alocacao alocacao) {
 		validaAlocacao(alocacao);
 		atualizaAlocacaoRelatorio(alocacao);
 		return alocacaoRepository.save(alocacao);
 	}
 	
+	/*
+	 * Relatório mensal
+	 * Geração de relatório mensal de usuário.
+	 */
 	@Override
-	public Relatorio getRelatorio(String mes) {
+	public Relatorio geraRelatorioMensal(String mes) {
 		Relatorio relatorio = relatorioRepository.findByMes(mes);
 		if (null == relatorio) {
 			throw new FolhaDePontoException(mensagensUtil.getProperty("relatorio.nao.encontrado"), HttpStatus.NOT_FOUND);
@@ -112,6 +124,9 @@ public class FolhaDePontoServiceImpl implements FolhaDePontoService {
 		return relatorio;
 	}
 	
+	/*
+	 * Atualiza na tabela de relatórios a alocação inserida
+	 */
 	private void atualizaAlocacaoRelatorio(Alocacao alocacao) {
 		YearMonth ym = YearMonth.parse(alocacao.getDia().substring(0, 7));
 		Relatorio relatorio = relatorioRepository.findByMes(ym.toString());
@@ -145,6 +160,9 @@ public class FolhaDePontoServiceImpl implements FolhaDePontoService {
 		}
 	}
 	
+	/*
+	 * Atualiza na tabela de relatórios o registro inserido
+	 */
 	private void atualizaRegistroRelatorio(Registro registro) {
 		/*
 		 * Atualiza o relatório diariamente 
@@ -187,6 +205,9 @@ public class FolhaDePontoServiceImpl implements FolhaDePontoService {
 		}
 	}
 	
+	/*
+	 * Valida a alocação
+	 */
 	private void validaAlocacao(Alocacao alocacao) {
 		Registro registro = registroRepository.findByDia(alocacao.getDia());
 		//Valida se o dia informado possui registro de ponto
@@ -209,6 +230,9 @@ public class FolhaDePontoServiceImpl implements FolhaDePontoService {
 		}
 	}
 
+	/*
+	 * Valida o momento
+	 */
 	private void validaMomento(Momento momento) {
 		//Valida se o horário já foi registrado
 		if (null != momentoRepository.findByDataHora(momento.getDataHora())) {
@@ -220,6 +244,9 @@ public class FolhaDePontoServiceImpl implements FolhaDePontoService {
 		}
 	}
 	
+	/*
+	 * Valida o registro
+	 */
 	private void validaRegistro(Registro registro, LocalDateTime dateTimeBatida) {
 		Date horarioBatida = Date.from(dateTimeBatida.atZone(ZoneId.systemDefault()).toInstant());
 		//Valida se o número de batidas foi excedido

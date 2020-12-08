@@ -29,19 +29,19 @@ public class FolhaDePontoResource {
 	@RequestMapping(value="/batidas", method=RequestMethod.POST)
 	private ResponseEntity<Registro> registrarBatida(@RequestBody Momento momento) throws FolhaDePontoException {
 		
-		return ResponseEntity.status(HttpStatus.CREATED).location(getLocation(momento.getId())).body(folhaDePontoService.registraBatida(momento));
+		return ResponseEntity.status(HttpStatus.CREATED).location(getLocation(momento.getId())).body(folhaDePontoService.insereBatida(momento));
 	}
 	
 	@RequestMapping(value="/alocacoes", method=RequestMethod.POST)
 	private ResponseEntity<Alocacao> registraAlocacao(@RequestBody Alocacao alocacao) {
 		
-		return ResponseEntity.status(HttpStatus.CREATED).location(getLocation(alocacao.getId())).body(folhaDePontoService.registraAlocacao(alocacao));
+		return ResponseEntity.status(HttpStatus.CREATED).location(getLocation(alocacao.getId())).body(folhaDePontoService.insereAlocacao(alocacao));
 	}
 	
 	@RequestMapping(value="/folhas-de-ponto/{mes}", method=RequestMethod.GET)
 	private ResponseEntity<Relatorio> getRelatorio(@PathVariable("mes") String mes) {
 		
-		return ResponseEntity.status(HttpStatus.OK).location(getLocation(this)).body(folhaDePontoService.getRelatorio(mes));
+		return ResponseEntity.status(HttpStatus.OK).location(getLocation(this)).body(folhaDePontoService.geraRelatorioMensal(mes));
 	}
 	
 	/*
