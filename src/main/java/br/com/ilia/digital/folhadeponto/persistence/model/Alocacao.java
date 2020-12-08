@@ -36,6 +36,18 @@ public class Alocacao implements Serializable {
 	@JsonIgnore
 	private Set<Relatorio> relatorios;
 
+	public Alocacao() {
+	}
+	
+	
+	public Alocacao(String dia, String tempo, String nomeProjeto) {
+		super();
+		this.dia = dia;
+		this.tempo = tempo;
+		this.nomeProjeto = nomeProjeto;
+	}
+
+
 	public Long getId() {
 		return id;
 	}

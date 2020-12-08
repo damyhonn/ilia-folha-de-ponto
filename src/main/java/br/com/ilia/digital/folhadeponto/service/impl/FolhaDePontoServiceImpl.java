@@ -1,4 +1,4 @@
-package br.com.ilia.digital.folhadeponto.service;
+package br.com.ilia.digital.folhadeponto.service.impl;
 
 import java.time.DateTimeException;
 import java.time.DayOfWeek;
@@ -11,7 +11,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.SortedSet;
@@ -30,6 +29,7 @@ import br.com.ilia.digital.folhadeponto.persistence.repository.AlocacaoRepositor
 import br.com.ilia.digital.folhadeponto.persistence.repository.MomentoRepository;
 import br.com.ilia.digital.folhadeponto.persistence.repository.RegistroRepository;
 import br.com.ilia.digital.folhadeponto.persistence.repository.RelatorioRepository;
+import br.com.ilia.digital.folhadeponto.service.FolhaDePontoService;
 import br.com.ilia.digital.folhadeponto.service.exception.FolhaDePontoException;
 import br.com.ilia.digital.folhadeponto.service.util.MensagensUtil;
 import br.com.ilia.digital.folhadeponto.service.util.TimeUtil;
@@ -199,7 +199,12 @@ public class FolhaDePontoServiceImpl implements FolhaDePontoService {
 		}
 		//Valida se o tempo a ser alocado é maior que o trabalhado no dia
 		Duration horasTrabalhadas = timeUtil.calculaHorasTrabalhadas(registro.getHorarios());
-		if (Duration.parse(alocacao.getTempo()).compareTo(horasTrabalhadas) > 0) {
+		Alocacao alocacaoExistente = alocacaoRepository.findByDia(alocacao.getDia());
+		Duration horasAlocadas = Duration.ZERO;
+		if (null != alocacaoExistente) {
+			horasAlocadas = Duration.parse(alocacaoExistente.getTempo());
+		}
+		if (Duration.parse(alocacao.getTempo()).plus(horasAlocadas).compareTo(horasTrabalhadas) > 0) {
 			throw new FolhaDePontoException(mensagensUtil.getProperty("nao.pode.alocar.tempo.maior.trabalhado"), HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -240,13 +245,4 @@ public class FolhaDePontoServiceImpl implements FolhaDePontoService {
 		}
 	}
 
-	@Override
-	public List<Registro> getRegistros() {
-		return registroRepository.findAll();
-	}
-	
-	@Override
-	public List<Momento> getMomentos() {
-		return momentoRepository.findAll();
-	}
 }

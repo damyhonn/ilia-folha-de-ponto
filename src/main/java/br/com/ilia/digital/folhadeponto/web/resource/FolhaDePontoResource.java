@@ -1,7 +1,6 @@
 package br.com.ilia.digital.folhadeponto.web.resource;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,18 +30,6 @@ public class FolhaDePontoResource {
 	private ResponseEntity<Registro> registrarBatida(@RequestBody Momento momento) throws FolhaDePontoException {
 		
 		return ResponseEntity.status(HttpStatus.CREATED).location(getLocation(momento.getId())).body(folhaDePontoService.registraBatida(momento));
-	}
-	
-	@RequestMapping(value="/registros", method=RequestMethod.GET)
-	private ResponseEntity<List<Registro>> registros() {
-		
-		return ResponseEntity.status(HttpStatus.OK).location(getLocation(this)).body(folhaDePontoService.getRegistros());
-	}
-	
-	@RequestMapping(value="/momentos", method=RequestMethod.GET)
-	private ResponseEntity<List<Momento>> getMomentos() {
-		
-		return ResponseEntity.status(HttpStatus.OK).location(getLocation(this)).body(folhaDePontoService.getMomentos());
 	}
 	
 	@RequestMapping(value="/alocacoes", method=RequestMethod.POST)

@@ -10,4 +10,5 @@ public interface AlocacaoRepository extends JpaRepository<Alocacao, Long> {
 	Optional<Alocacao> findById(Long id);
 	Alocacao findByTempo(String tempo);
 	Alocacao findByDiaAndTempo(String dia, String tempo);
+	Alocacao findByDia(String dia);
 }
